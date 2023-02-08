@@ -1,4 +1,3 @@
-import logger
 import json
 import random
 
@@ -57,6 +56,12 @@ class Book:
     def set_loaned_or_not(self, status:bool):
         self.loaned = status
 
+    def set_book_type(self, book_type):
+        self.book_type = book_type
+
+    def set_book_id(self, book_id):
+        self.book_id = book_id
+
 
     #getting numbers
 
@@ -65,7 +70,7 @@ class Book:
             counter = 0
             with open("books.json", "r") as file:
                 line = file.readlines()
-                if logger.check_book_log_exists():
+                if self.check_book_log_exists():
                     while line:
                         counter = + 1
                         line = file.readlines()
@@ -80,10 +85,12 @@ class Book:
 
     def add_book_to_library_stock(self):
         with open("books.json", "a+") as file:
-
-            log_entry = {"book_id" : self.book_id, "name" : self.name, "author" : self.author, "year" : self.year,
-                         "type" : self.book_type, "status" : self.loaned}
-            file.write(json.dumps(log_entry) + '\n')
+            if not self.no_double_books():
+                log_entry = {"book_id" : self.book_id, "name" : self.name, "author" : self.author, "year" : self.year,
+                             "type" : self.book_type, "status" : self.loaned}
+                file.write(json.dumps(',' +log_entry))
+            else:
+                raise DoubleBookIdError(f"Book with id {str(self.book_id)} already exists")
 
     def no_double_books(self):
         with open("books.json", "r") as file:
@@ -95,7 +102,15 @@ class Book:
                     line = file.readlines()
         file.close()
 
-
+    @staticmethod
+    def check_book_log_exists():
+        books_file = 'books.json'
+        with open(books_file, 'r') as file:
+            line = file.readlines()
+            if line:
+                return True
+            else:
+                return False
 
 # book3 = Book(book_id=10, name='The Hitchhikers Guide to the Galaxy', author='Douglas Adams', year=1980, book_type=1)
 # book3.add_book_to_library_stock()

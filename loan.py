@@ -1,7 +1,7 @@
 import book
 import dates
 import datetime
-import logger
+
 
 
 class LoanError(Exception):
@@ -20,7 +20,7 @@ class IncorrectCustomerIdError(LoanError):
         message = "Incorrect Customer Id for this book, please check again"
 
 
-log = logger.Log()
+
 
 
 class Loan:
@@ -80,6 +80,7 @@ class Loan:
 
     def update_loan_date(self, new_date):
         self.loan_date = dates.format_date_to_dmy(new_date)
+
 
     def set_return_date(self, return_date):
         self.return_date = dates.format_date_to_dmy(return_date)

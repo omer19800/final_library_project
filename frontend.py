@@ -1,8 +1,12 @@
 import library
+import logger
 
 #need function to print all books on file
+
 #need function to print all customers on file
+logger.get_all_customers_details()
 #need function to print all logs
+logger.print_all_logs()
 #make a simple nice ui for the library
 #like a [1] loan a book [2]return a book [3]customer menu [4]book menu [5]log menu [6]exit
 #customer menu: [1]add a customer [2]change a customer details [3]list all customers

@@ -18,9 +18,10 @@ class Customer:
         self.email = check_email(email)
         self.birthday = birthday #just require format dd-mm-yyyy
         self.customer_id = random.randint(1, 10000)
+        self.loaned_books = []
 
-
-
+    def __repr__(self):
+        pass
     #getters
     def get_customer_personal_id(self):
         return self.id
@@ -37,12 +38,29 @@ class Customer:
     def get_customer_birthday(self):
         return self.birthday
 
+    def get_customer_loaned_books(self):
+        return self.loaned_books
+
     #setters
     def set_customer_name(self, new_name):
         self.customer_name = new_name
 
     def set_customer_birthday(self, new_birthday):
         self.birthday = new_birthday
+
+    def set_customer_customer_id(self, new_id):
+        self.customer_id = new_id
+    def set_customer_loans(self, the_list:list):
+        self.loaned_books = the_list
+
+    def add_loaned_book_to_customer(self, new_book_id):
+        self.loaned_books.append(new_book_id)
+
+    def remove_loaned_book_from_customer(self, book_id):
+        self.loaned_books.pop(book_id)
+
+    def set_customer_id(self, id):
+        self.customer_id = id
 
     def set_customer_email(self, new_email):
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' #thanks internet
@@ -80,14 +98,14 @@ class Customer:
                 result.append(customer)
         return result
 
-    @staticmethod
-    def get_customer_details_by_id(customer_id): #chat
-        with open('customers.json', 'r') as f:
-            customers = json.load(f)
-        for customer in customers:
-            if customer['customer_id'] == customer_id:
-                return customer
-        return None
+    # @staticmethod
+    # def get_customer_details_by_id(customer_id): #chat
+    #     with open('customers.json', 'r') as f:
+    #         customers = json.load(f)
+    #     for customer in customers:
+    #         if customer['customer_id'] == customer_id:
+    #             return customer
+    #     return None
 
 
 
@@ -98,13 +116,14 @@ class Customer:
             'name': self.name,
             'address': self.address.__repr__(),
             'email': self.email,
-            'birthday': self.birthday
+            'birthday': self.birthday,
+            'curr_loaned': self.loaned_books
         }
 
     def add_to_customer_file(self):
         with open('customers.json', 'a') as f:
-            json.dump(self.to_dict(), f)
-            f.write('\n')
+            json.dump((',' + self.to_dict()), f)
+
 
 def check_email(email):
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' #thanks internet
@@ -112,9 +131,9 @@ def check_email(email):
 
 
 #
-customer = Customer(id=2, name="Omer Eshel",email="omer198000@gmail.com", birthday="19-08-2000", city="Kefar Saba",
-                    street="Yaair Rozenblum", house_num="12345")
+# customer = Customer(id=2, name="Omer Eshel",email="omer198000@gmail.com", birthday="19-08-2000", city="Kefar Saba",
+#                     street="Yaair Rozenblum", house_num="12345")
 
 # print(customer.address.city)
-customer.add_to_customer_file()
+# customer.add_to_customer_file()
 

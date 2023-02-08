@@ -1,6 +1,6 @@
-import book
-import loan
+from customer import Customer
 import loan as l
+from book import *
 import dates
 import logger
 import datetime
@@ -26,14 +26,24 @@ class Library:
 
             #if the book is loaned, show an error
             if selected_book.is_loaned is True : #book is loaned
-                # need a function to update the log of that book
                 raise l.BookAlreadyLoanedError("Book is already loaned, check loan details or try another book")
+
 
             #actually doing stuff
             selected_book.set_is_loaned(True)  # change the book status to loaned
             loan = l.Loan(selected_book, customer_id, book_id) #creating a loan instance
             loan.set_loan_date_today() #setting the loan date to today
             loan.set_return_date_via_type #setting the return date via the type of the book
+
+            # need a function to update the log of that book
+            logger.update_book_status(book_id, False) #chat
+
+            # function to get customer instance
+            logger.get_customer_instance_by_id(customer_id) #chat
+
+            # a function to add the book to the customer
+            customer.add_loaned_book_to_customer(book_id) #chat
+
 
             #writing to log
             logger.write_log({'type': 'loan', 'book_id': book_id, 'customer_id': customer_id,
@@ -63,15 +73,24 @@ class Library:
 
             #the return itself
             selected_book.set_is_loaned(False)  # change the book status to not loaned
-            #need a function to update the log of that book
             loan_instance = logger.get_loan_object_by_id(selected_book, book_id, customer_id)  # get the loan object
+
+            # need a function to update the log of that book
+            logger.update_book_status(book_id, False)  # update the book status to returned #chat
+
+            # function to get customer instance
+            logger.get_customer_instance_by_id(customer_id) #chat
+
+            # a function to remove the book from the customer instance
+            customer.remove_loaned_book_from_customer(book_id) #chat
+
 
             #check for late & write to the log
             if loan.check_if_late():
                 late_days = loan_instance.calculate_late_days()
                 loan_instance.set_is_late(True)
                 log_entry = {'type': 'return', 'book_id': book_id, 'customer_id': customer_id,
-                        'return_date': dates.todays_date(), 'status': 'Late',
+                        'return_date': dates.todays_date(), 'status': 'late',
                         'original_return_date': loan_instance.get_return_date , 'days_late': late_days }
                 logger.write_log(log_entry)
                 raise l.BookLateError("Problem: Book is late")
@@ -84,10 +103,32 @@ class Library:
         except l.BookNotOnLoanError as e:
             print("Book was returned late, fine is due, 5000$")
 
+    @staticmethod#chat
+    def select_a_customer(customer_id_num):
+        selected_customer = customer.get_customer_instance_by_id(customer_id)
+        return selected_customer
+        #get a customer instance from the customer personal id num using a logger function
+    @staticmethod
+    def create_a_customer(id, name, email, birthday, city, street, house_num, po_num=None):
+        customer = Customer(id, name, email, birthday, city, street, house_num, po_num)
+        customer.add_to_customer_file()
 
-#need function create customer
-#need function add a book
+    @staticmethod #chat
+    def remove_a_customer(customer_id):
+        #through the logger remove the customer based on the personal id num from the customer file
+        logger.remove_a_customer_by_id(customer_id)
 
-Library.return_a_book(10, 80085)
+    @staticmethod
+    def add_a_book(name, author, year, type=None):
+        book = Book(book.generate_book_id(), name, author, year, type=None)
+        book.add_book_to_library_stock()
+
+    @staticmethod #chat
+    def remove_a_book(book_id):
+        #through the logger remove the book based on the book id
+        logger.remove_book(book_id) #chat
+
+
+# Library.return_a_book(10, 80085)
 
 
