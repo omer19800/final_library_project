@@ -1,0 +1,9 @@
+{"entry_num": 1, "type": "loan", "book_id": 2, "customer_id": 332, "loan_date": "08/02/23", "return_date": "13/02/23"}
+{"entry_num": 2, "type": "loan", "book_id": 1, "customer_id": 123, "loan_date": "09/02/23", "return_date": "19/02/23"}
+{"entry_num": 3, "type": "loan", "book_id": 2, "customer_id": 332, "loan_date": "09/02/23", "return_date": "14/02/23"}
+{"entry_num": 4, "type": "loan", "book_id": 1, "customer_id": 123, "loan_date": "09/02/23", "return_date": "19/02/23"}
+{"entry_num": 5, "type": "loan", "book_id": 2, "customer_id": 332, "loan_date": "09/02/23", "return_date": "14/02/23"}
+{"entry_num": 6, "type": "loan", "book_id": 1, "customer_id": 123, "loan_date": "09/02/23", "return_date": "19/02/23"}
+{"entry_num": 7, "type": "loan", "book_id": 2, "customer_id": 332, "loan_date": "09/02/23", "return_date": "14/02/23"}
+{"entry_num": 8, "type": "loan", "book_id": 1, "customer_id": 123, "loan_date": "09/02/23", "return_date": "19/02/23"}
+{"entry_num": 9, "type": "loan", "book_id": 2, "customer_id": 332, "loan_date": "09/02/23", "return_date": "14/02/23"}
