@@ -43,6 +43,7 @@ class Loan:
         pass
 
     ###getters###
+
     def get_book(self):
         return self.book
     def get_loaner_id(self):
@@ -70,7 +71,8 @@ class Loan:
         return self.extension
 
 
-            ###setters###
+
+    ###setters###
 
     def set_loan_date(self, man_date):
         self.loan_date = dates.format_date_dmy(man_date)
