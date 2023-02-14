@@ -3,10 +3,10 @@ import dates
 
 class Customer:
 
-    def __init__(self, id: int, name: str, address: address.Address, email, birthday):
+    def __init__(self, id: int, name: str, address: address.Address(city=city,street=street,house_num=house_num), email, birthday):
         self.id = id
         self.name = name
-        self.address = address
+        self.address = Address(city, street, housenum)
         self.email = email
         self.birthday = birthday
 
@@ -14,5 +14,13 @@ class Customer:
         # address - diffrent class to confirm all details correct
         #birthday - diffrent class to work with datetime module
 
-def nothing():
-    print("hi")
+    #getters
+    def get_customer_id(self):
+        return self.id
+
+    def get_customer_name(self):
+        return self.name
+
+    def get_customer_address:
+        return address.str
+

@@ -29,15 +29,17 @@ class Log:
         except FileNotFoundError:
             return 0
 
-    def read_logs(self) -> list:
-        with open(self.log_file, 'r') as file:
-            line = file.readline()
-            logs = []
-            while line:
-                log = json.loads(line)
-                logs.append(log)
-                line = file.readline()
-        return logs
+
+
+    # def read_logs(self) -> list:
+    #     with open(self.log_file, 'r') as file:
+    #         line = file.readline()
+    #         logs = []
+    #         while line:
+    #             log = json.loads(line)
+    #             logs.append(log)
+    #             line = file.readline()
+    #     return logs
 
 log = Log()
 
