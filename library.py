@@ -9,7 +9,8 @@ def check_if_book_is_loaned(book_id):
     logger.check_for_lines_with(book_id)
 
 
-
+def bullshit():
+    pass
 class Library:
 
     def __init__(self):
