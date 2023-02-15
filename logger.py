@@ -6,6 +6,8 @@ class LogNotFoundError(LogError):
 
 
 
+
+
 class Log:
     def __init__(self, log_file='log.json'):
         self.log_file = log_file
@@ -28,6 +30,14 @@ class Log:
                     return latest_entry['entry_num'] + 1
         except FileNotFoundError:
             return 0
+
+log_file='log.json'
+def check_for_lines_with(book_id):
+    with open(log_file, 'r') as file:
+        curr_line = file.readlines()
+        if not curr_line:
+            raise LogNotFoundError
+
 
 
 
