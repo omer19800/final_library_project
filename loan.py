@@ -102,6 +102,13 @@ class Loan:
         self.return_date = datetime.date(dates.format_date_dmy(date))
 
 
+def check_if_book_is_loaned_logs(book_id):
+    relevant_logs = logger.check_for_lines_with(book_id)
+    if relevant_logs[-1]["Loaned"]:
+        return True
+    else:
+        return False
+
 
 # book1 = book.Book(1, "sheesh", "pardo", 1999, 1)
 # book2 = book.Book(2, "sheesh", "pardo", 1998, 2)

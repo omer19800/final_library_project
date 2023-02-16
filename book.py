@@ -1,3 +1,6 @@
+import logger
+
+
 class Book:
 
     def __init__(self, book_id: int, name: str, author: str, year: int, book_type: int) -> object:
@@ -40,12 +43,21 @@ class Book:
         return self.loaned
 
     def set_loaned_or_not(self, status:bool):
-        if status:
-            self.loaned = True
-        elif not status:
-            self.loaned = False
-        else:
-            pass
+        self.loaned = status
 
-#types: 1 up to 10 days, 2 up to 5 days, 3 up to 2 days
+    def add_book_to_library_stock(self):
+        pass
+        #add to the book log in format of {book_id} {name} {author} {publish_year} {type}
+
+
+def get_book_by_id(book_id):
+    if logger.check_book_log_exists():
+        book_object = #from book file get the line by the book id then extract the details
+
+
+
+
+
+
+
 
