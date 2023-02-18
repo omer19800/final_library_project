@@ -1,10 +1,29 @@
 import logger
+import json
+import random
+
+class BookError(Exception):
+    pass
+class DoubleBookIdError(BookError):
+    pass
+def generate_book_id():
+        counter = 0
+        with open("books.json", "r") as file:
+            line = file.readlines()
+            if logger.check_book_log_exists():
+                while line:
+                    counter = + 1
+                    line = file.readlines()
+                return counter
+            else:
+                return 0
+
 
 
 class Book:
 
-    def __init__(self, book_id: int, name: str, author: str, year: int, book_type: int) -> object:
-        self.book_id = id
+    def __init__(self, book_id: int, name: str, author: str, year: int, book_type:int= random.randint(1,3)) -> object:
+        self.book_id = book_id
         self.name = name
         self.author = author
         self.year = year
@@ -27,7 +46,10 @@ class Book:
         return self.year
 
     def get_type(self):
+        if not self.book_type:
+            self.book_type = random.randint(1, 3)
         return self.book_type
+
 
     def max_loan_length(self):
         book_type = self.book_type
@@ -45,14 +67,32 @@ class Book:
     def set_loaned_or_not(self, status:bool):
         self.loaned = status
 
+
+    #logging everything
+
     def add_book_to_library_stock(self):
-        pass
-        #add to the book log in format of {book_id} {name} {author} {publish_year} {type}
+        with open("books.json", "a+") as file:
+
+            log_entry = {"book_id" : self.book_id, "name" : self.name, "author" : self.author, "year" : self.year,
+                         "type" : self.book_type, "status" : self.loaned}
+            file.write(json.dumps(log_entry) + '\n')
+
+    def no_double_books(self):
+        with open("books.json", "r") as file:
+            line = file.readlines()
+            while line:
+                if json.loads(line[0])["book_id"] == self.book_id:
+                    raise DoubleBookIdError(f"Book with id {str(self.book_id)} already exists")
+                else:
+                    line = file.readlines()
+        file.close()
 
 
-def get_book_by_id(book_id):
-    if logger.check_book_log_exists():
-        book_object = #from book file get the line by the book id then extract the details
+
+book3 = Book(book_id=1, name='The Great Gatsby', author='F. Scott Fitzgerald', year=1991, book_type=1)
+
+book3.add_book_to_library_stock()
+
 
 
 

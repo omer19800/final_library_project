@@ -102,12 +102,11 @@ class Loan:
         self.return_date = datetime.date(dates.format_date_dmy(date))
 
 
-def check_if_book_is_loaned_logs(book_id):
+def check_if_book_is_loaned_in_logs(book_id):
     relevant_logs = logger.check_for_lines_with(book_id)
-    if relevant_logs[-1]["Loaned"]:
-        return True
-    else:
-        return False
+    return bool(relevant_logs[-1]["Loaned"])
+
+
 
 
 # book1 = book.Book(1, "sheesh", "pardo", 1999, 1)
@@ -121,16 +120,3 @@ def check_if_book_is_loaned_logs(book_id):
 # loan.extend_loan_time(5)
 
 
-
-
-
-
-        #centralized dump of all actions into the json through the log_entries = []
-        # def loan_book(self, book, book_id, customer_id):
-        #     # set loan date and return date
-        #     log_entry = {'type': 'loan', 'book_id': book_id, 'customer_id': customer_id,
-        #                  'loan_date': str(self.loan_date), 'return_date': str(self.return_date)}
-        #     self.log_entries.append(Log(log_entry))
-
-        # if book.get_loaned is False:
-            # raise BookAlreadyLoaned
