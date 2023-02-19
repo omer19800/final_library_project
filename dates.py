@@ -18,13 +18,6 @@ def format_date_dmy(date):
         formatted_date = datetime.datetime.strptime(date, '%y/%m/%d').strftime('%d/%m/%y')
     return formatted_date
 
-# dates method to ranslate from normal date method to datetime.date formar yyyy-mm-dd
-# def format_date_ymd(date):
-#     fixed_format_date = date.strftime("%Y-%m-%d")
-#     return fixed_format_date
 
-# def into_datetime_object(date):
-#     turned_date = datetime.strptime(date, "%d").date()
-#     return turned_date
 
 

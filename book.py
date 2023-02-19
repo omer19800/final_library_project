@@ -6,17 +6,7 @@ class BookError(Exception):
     pass
 class DoubleBookIdError(BookError):
     pass
-def generate_book_id():
-        counter = 0
-        with open("books.json", "r") as file:
-            line = file.readlines()
-            if logger.check_book_log_exists():
-                while line:
-                    counter = + 1
-                    line = file.readlines()
-                return counter
-            else:
-                return 0
+
 
 
 
@@ -68,6 +58,24 @@ class Book:
         self.loaned = status
 
 
+    #getting numbers
+
+    def generate_book_id(self):
+        if not self.book_id:
+            counter = 0
+            with open("books.json", "r") as file:
+                line = file.readlines()
+                if logger.check_book_log_exists():
+                    while line:
+                        counter = + 1
+                        line = file.readlines()
+                    return counter
+                else:
+                    return 0
+        else:
+            return self.book_id
+
+
     #logging everything
 
     def add_book_to_library_stock(self):
@@ -89,15 +97,7 @@ class Book:
 
 
 
-book3 = Book(book_id=1, name='The Great Gatsby', author='F. Scott Fitzgerald', year=1991, book_type=1)
-
-book3.add_book_to_library_stock()
-
-
-
-
-
-
-
+# book3 = Book(book_id=10, name='The Hitchhikers Guide to the Galaxy', author='Douglas Adams', year=1980, book_type=1)
+# book3.add_book_to_library_stock()
 
 

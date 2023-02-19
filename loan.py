@@ -96,15 +96,18 @@ class Loan:
         loan_date_datetime_format = datetime.datetime.strptime(self.loan_date, "%d/%m/%y")
         self.return_date = loan_date_datetime_format + datetime.timedelta(days=days_by_type)
         self.return_date = datetime.datetime.strftime(self.return_date, "%d/%m/%y")
-        return self.return_date
+
 
     def set_return_custom_date(self, date: "format yyyy-mm-dd"):
         self.return_date = datetime.date(dates.format_date_dmy(date))
 
 
-def check_if_book_is_loaned_in_logs(book_id):
-    relevant_logs = logger.check_for_lines_with(book_id)
-    return bool(relevant_logs[-1]["Loaned"])
+# def check_if_book_is_loaned_in_logs(book_id):
+#     relevant_logs = logger.check_for_logs_of_book(book_id)
+#     if relevant_logs["status"] == True:
+#         return True
+#     else:
+#         return False
 
 
 
