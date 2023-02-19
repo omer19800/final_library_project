@@ -112,8 +112,8 @@ def check_email(email):
 
 
 #
-# customer = Customer(id=1, name="John Doe",email="omer198000@gmail.com", birthday="19-08-2000", city="New York",
-#                     street="123 Main Street", house_num="12345")
+customer = Customer(id=2, name="Omer Eshel",email="omer198000@gmail.com", birthday="19-08-2000", city="Kefar Saba",
+                    street="Yaair Rozenblum", house_num="12345")
 
 # print(customer.address.city)
 customer.add_to_customer_file()
