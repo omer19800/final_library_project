@@ -15,8 +15,8 @@ class Customer:
         self.id = id
         self.name = name
         self.address = address.Address(city, street, house_num, po_num)
-        self.email = self.set_customer_email(email)
-        self.birthday:str = birthday #just require format dd-mm-yyyy
+        self.email = check_email(email)
+        self.birthday = birthday #just require format dd-mm-yyyy
         self.customer_id = random.randint(1, 10000)
 
 
@@ -49,6 +49,7 @@ class Customer:
         if (re.search(regex, new_email)):
             self.email = new_email
         else:
+            self.email = None
             raise EmailError("Invalid Email")
     def set_new_customer_address(self, city, street, house_num, po_num=None):
         self.address = address.Address(city, street, house_num)
@@ -105,13 +106,15 @@ class Customer:
             json.dump(self.to_dict(), f)
             f.write('\n')
 
+def check_email(email):
+    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' #thanks internet
+    return email if re.search(regex, email) else None
 
-    #maybe through a logger func counting the length of customer file
-    #also need to write a logger func to check if the customer file is empty or not
-    #alsoo need to write a logger func to write to the customer file
 
-customer = Customer(id=1, name="John Doe", email="omer198000@gmail.com", birthday="19-08-2000", city="New York",
+
+customer = Customer(id=1, name="John Doe",email="omer198000@gmail.com", birthday="19-08-2000", city="New York",
                     street="123 Main Street", house_num="12345")
 
 # print(customer.address.city)
 customer.add_to_customer_file()
+
