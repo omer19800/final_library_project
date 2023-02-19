@@ -7,4 +7,4 @@
 {"book_id": 7, "name": "The Adventures of Huckleberry Finn", "author": "Mark Twain", "year": 1885, "type": 2, "status": false}
 {"book_id": 8, "name": "Hamlet", "author": "William Shakespeare", "year": 1601, "type": 3, "status": false}
 {"book_id": 9, "name": "Moby Dick", "author": "William Herman Melville", "year": 1851, "type": 1, "status": false}
-{"book_id": 10, "name": "The Hitchhikers Guide to the Galaxy", "author": "Douglas Adams", "year": 1980, "type": 1, "status": false}
+{"book_id": 10, "name": "The Hitchhikers Guide to the Galaxy", "author": "Douglas Adams", "year": 1980, "type": 1, "status": true}

@@ -2,8 +2,6 @@ import book
 import dates
 import datetime
 import logger
-from logger import LogNotFoundError
-from typing import List
 
 
 class LoanError(Exception):
@@ -75,14 +73,19 @@ class Loan:
     ###setters###
 
     def set_loan_date(self, man_date):
-        self.loan_date = dates.format_date_dmy(man_date)
+        self.loan_date = dates.format_date_to_dmy(man_date)
 
     def set_loan_date_today(self):
         self.loan_date = dates.todays_date()
 
     def update_loan_date(self, new_date):
-        self.loan_date = dates.format_date_dmy(new_date)
+        self.loan_date = dates.format_date_to_dmy(new_date)
 
+    def set_return_date(self, return_date):
+        self.return_date = dates.format_date_to_dmy(return_date)
+
+    def set_is_late(self, is_late:bool):
+        self.is_late = is_late
     def extend_loan_time(self, how_many_days):
         self.return_date = dates.todays_date()
         return_date_datetime_format = datetime.datetime.strptime(self.return_date, "%d/%m/%y")
@@ -99,27 +102,30 @@ class Loan:
 
 
     def set_return_custom_date(self, date: "format yyyy-mm-dd"):
-        self.return_date = datetime.date(dates.format_date_dmy(date))
+        self.return_date = datetime.date(dates.format_date_to_dmy(date))
 
+    def calculate_late_days(self):
+        return_date = datetime.datetime.strptime(self.return_date, '%d/%m/%y')
+        todays_date = datetime.datetime.strptime(dates.todays_date(), '%d/%m/%y')
+        late_days = (return_date - todays_date).days
+        if late_days <= 0:
+            return 0
+        else:
+            return late_days
+    @staticmethod
+    def same_loaner(customer_id, last_loaner_id):
+        if customer_id == last_loaner_id:
+            return True
+        else:
+            return False
 
-# def check_if_book_is_loaned_in_logs(book_id):
-#     relevant_logs = logger.check_for_logs_of_book(book_id)
-#     if relevant_logs["status"] == True:
-#         return True
-#     else:
-#         return False
-
-
-
-
-# book1 = book.Book(1, "sheesh", "pardo", 1999, 1)
-# book2 = book.Book(2, "sheesh", "pardo", 1998, 2)
-# book3 = book.Book(book_id = 1, name = 'The Great Gatsby', author = 'F. Scott Fitzgerald',year= 1991 , book_type= 1 )
-
-# loan = Loan(book3, book3.book_id, 123)
-
-# loan.loan_book(loan.book, loan.book_id, loan.customer_id)
-# loan.return_book(loan.book, loan.book_id, loan.customer_id)
-# loan.extend_loan_time(5)
+def check_if_late(loan_instance):  # check for late
+    today_date = datetime.datetime.strptime(dates.todays_date(), '%d/%m/%y')
+    return_date = datetime.datetime.strptime(loan_instance.get_return_date(), '%d/%m/%y')
+    duration = return_date - today_date
+    if duration < datetime.timedelta(days=0):
+        return True
+    else:
+        return False
 
 
