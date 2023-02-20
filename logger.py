@@ -6,7 +6,7 @@ class LogError(Exception):
     pass
 class LogNotFoundError(LogError):
     pass
-class CustomerHasActiveLoans(LogError):
+class CustomerHasActiveLoans(Exception):
     pass
 
 
@@ -14,7 +14,7 @@ log_file = 'log.json'
 
 class Log:
     def __init__(self, log_file='log.json'):
-        self.log_file = log_file #  # no
+        self.log_file = log_file # no
 
 
 def write_log(log_entry):
@@ -267,6 +267,8 @@ def remove_book(book_id):
     with open("books.json", "w") as file:
         json.dump(data, file)
 #add book is inside book file
+
+
 
 def remove_a_customer(customer_id): #based on the fact you technically return the library card when you leave it - allegedly
     try:
