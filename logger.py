@@ -82,7 +82,9 @@ def get_last_loaner_id(book_id):
                 raise LogNotFoundError
     except LogNotFoundError:
         print("Error - Log Not Found - Log file is missing or there was a problem with the logs themselves")
+        
 
+# getting book and loan instances from the id`s to interact with in the library file
 def get_book_object_by_id(book_id):
     book_details = []
     import book
