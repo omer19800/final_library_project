@@ -2,7 +2,7 @@ import library
 import logger
 
 #need function to print all books on file
-
+logger.print_all_books()
 #need function to print all customers on file
 logger.get_all_customers_details()
 #need function to print all logs

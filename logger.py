@@ -319,6 +319,8 @@ def print_all_logs():
                     print("Status:", log["status"])
                     print("Original Return Date:", log["original_return_date"])
                     print("How Late Was The Customer:", log["days_late"])
+            else:
+                print("Status:", log["status"])
             print("----------------------------------------------------------------")
 
     # chat
