@@ -6,6 +6,9 @@ class BookError(Exception):
 class DoubleBookIdError(BookError):
     pass
 
+class BookOnLoanError(BookError):
+    pass
+
 
 
 
@@ -62,6 +65,9 @@ class Book:
     def set_book_id(self, book_id):
         self.book_id = book_id
 
+    def set_book_year(self, new_year):
+        self.book_year = new_year
+
 
     #getting numbers
 
@@ -111,6 +117,19 @@ class Book:
                 return True
             else:
                 return False
+
+def generate_book_id_manual():
+        counter = 0
+        with open("books.json", "r") as file:
+            line = file.readlines()
+            if Book.check_book_log_exists():
+                while line:
+                    counter = + 1
+                    line = file.readlines()
+                return counter
+            else:
+                return 0
+
 
 # book3 = Book(book_id=10, name='The Hitchhikers Guide to the Galaxy', author='Douglas Adams', year=1980, book_type=1)
 # book3.add_book_to_library_stock()

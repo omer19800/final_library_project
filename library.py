@@ -3,7 +3,7 @@ import loan as l
 from book import *
 import dates
 import logger
-import datetime
+import time
 
 
 
@@ -19,7 +19,7 @@ class Library:
         try:
             #confirming yet again log exists
             if not logger.check_log_exists():
-                raise logger.LogNotFoundError
+                raise logger.LogNotFoundError("Problem : Log File Was Not Found")
 
             #get the book object from the book file
             selected_book = logger.get_book_object_by_id(book_id)
@@ -59,7 +59,7 @@ class Library:
         try:
             # confirming yet again log exists
             if not logger.check_log_exists():
-                raise logger.LogNotFoundError
+                raise logger.LogNotFoundError("Problem : Log File Was Not Found")
 
             # get the book object from the book file
             selected_book = logger.get_book_object_by_id(book_id)
@@ -86,14 +86,14 @@ class Library:
 
 
             #check for late & write to the log
-            if loan.check_if_late():
+            if l.check_if_late():
                 late_days = loan_instance.calculate_late_days()
                 loan_instance.set_is_late(True)
                 log_entry = {'type': 'return', 'book_id': book_id, 'customer_id': customer_id,
                         'return_date': dates.todays_date(), 'status': 'late',
                         'original_return_date': loan_instance.get_return_date , 'days_late': late_days }
                 logger.write_log(log_entry)
-                raise l.BookLateError("Problem: Book is late")
+                raise l.BookLateError("Problem: Book is being returned late")
 
             #write to the log normal return
             log_entry = {'type': 'return', 'book_id': book_id, 'customer_id': customer_id,
@@ -109,8 +109,8 @@ class Library:
         return selected_customer
         #get a customer instance from the customer personal id num using a logger function
     @staticmethod
-    def create_a_customer(id, name, email, birthday, city, street, house_num, po_num=None):
-        customer = Customer(id, name, email, birthday, city, street, house_num, po_num)
+    def create_a_customer(id, name, email, birthday, city, street, house_num):
+        customer = Customer(id, name, email, birthday, city, street, house_num)
         customer.add_to_customer_file()
 
     @staticmethod #chat
@@ -128,6 +128,13 @@ class Library:
         #through the logger remove the book based on the book id
         logger.remove_book(book_id) #chat
 
+def small_loading_animation():
+    print('Loading', end="")
+    for i in range(3):
+        time.sleep(.5)
+        print(".", end="")
+    time.sleep(0.2)
+    print("\n")
 
 # Library.return_a_book(10, 80085)
 

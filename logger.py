@@ -1,12 +1,20 @@
 import json
+
+import Levenshtein as Levenshtein
+
 import dates
 import customer
+import book
+from fuzzywuzzy import fuzz
+import Levenshtein
 
 class LogError(Exception):
     pass
 class LogNotFoundError(LogError):
     pass
 class CustomerHasActiveLoans(Exception):
+    pass
+class BookNotFoundError(LogError):
     pass
 
 
@@ -81,7 +89,6 @@ def get_last_loaner_id(book_id):
 # getting book and loan instances and customer  from the id`s to interact with in the library file
 def get_book_object_by_id(book_id):
     book_details = []
-    import book
     try:
         with open("books.json", "r") as file:
             books = json.load(file)
@@ -189,25 +196,7 @@ def get_customer_details_by_id(customer_id):
                 print("Current Loaned Books:", customer["curr_loaned"])
                 print("----------------------------------------------------------------")
 
-# def get_logs_of_book_by_id(book_id):
-#     relevant_logs = []
-#     try:
-#         with open(log_file, 'r') as file:
-#             line_list = file.readlines()
-#             if check_book_log_exists() is True:
-#                 for line in line_list:
-#                     curr_log_line = json.loads(line.strip('\n'))  # recieves a list
-#                     if curr_log_line["book_id"] == book_id:
-#                         relevant_logs.append(curr_log_line)
-#                     elif curr_log_line["book_id"] != book_id:
-#                         pass
-#                 return relevant_logs
 #
-#             else:
-#                 raise LogNotFoundError
-#     except LogNotFoundError:
-#         print("Error - Log Not Found - Log file is missing or there was a problem with the logs themselves")
-
 
 #updates
 
@@ -238,7 +227,7 @@ def update_book_status(book_id, new_status):
             json.dump(books, file, indent=4)
 
     else:
-        raise LogNotFoundError
+        raise LogNotFoundError("Book with id {book_id} not found")
 
 #chat
 def update_a_customer(changed_customer_instance):
@@ -261,8 +250,11 @@ def remove_book(book_id):
 
     for book in data:
         if book["book_id"] == book_id:
-            data.remove(book)
-            break
+            if book["status"] == "True":
+                raise book.BookOnLoanError(f"Book with id {book_id} is on loan!")
+            else:
+                data.remove(book)
+                break
 
     with open("books.json", "w") as file:
         json.dump(data, file)
@@ -334,9 +326,9 @@ def print_all_books():
     except FileNotFoundError:
         print("books.json file not found!")
         return
-
+    print("----------------------------------------------------------------")
     for book in books:
-        print("----------------------------------------------------------------")
+
         print(f"Book ID: {book['book_id']}")
         print(f"Name: {book['name']}")
         print(f"Author: {book['author']}")
@@ -345,14 +337,85 @@ def print_all_books():
         print(f"Status: {'available' if book['status'] else 'not available'}")
         print("----------------------------------------------------------------")
 
+def print_all_late_logs():
+    with open(log_file, 'r') as file:
+        if check_book_log_exists():
+            logs = json.load(file)
+            print("----------------------------------------------------------------")
+            for log in logs:
+                if log["type"] == "return" and log["status"] == "late":
+                    print("Log Entry Number:", log["entry_num"])
+                    print("Log Entry Type:", log["type"])
+                    print("Book ID:", log["book_id"])
+                    print("Customer ID:", log["customer_id"])
+                    print("Loan Date:", log["loan_date"])
+                    print("Actual Return Date:", log["return_date"])
+                    print("Original Return Date:", log["original_return_date"])
+                    print("How Late Was The Customer:", log["days_late"])
+                    print("Status:", log["status"])
+                    print("----------------------------------------------------------------")
+
+#yet again getting ids from strings
+#found about about fuzzy wuzzy package that compares strings and outputs the best match ratio, so used that
+#dont forget to install fuzzywuzzy package
+def get_book_id_from_name(book_name:str):
+    with open('books.json', 'r') as file:
+        content = json.load(file)
+        best_match = None
+        best_ratio = 0
+        for book in content:
+            ratio = fuzz.token_set_ratio(book_name, book['name'])
+            if ratio > best_ratio:
+                best_match = book['book_id']
+                best_ratio = ratio
+        if best_match:
+            return best_match
+        else:
+            raise BookNotFoundError("Book was not found")
 
 
+def get_customer_id_from_name(customer_name):
+    with open("customers.json", "r") as file: #chat
+        content = json.load(file)
+        for customer in content:
+            name = customer["name"]
+            score = fuzz.token_sort_ratio(name.lower(), customer_name.lower())
+            if score >= 80:  # set a threshold for the score
+                return customer["customer_id"]
+    # return None if no match is found
+    return None
 
-# get_customer_details_by_id(80085)
-# get_all_customers_details()
-# update_book_status(10, False)
-# remove_book(10)   #{"book_id": 10, "name": "The Hitchhikers Guide to the Galaxy", "author": "Douglas Adams", "year": 1980, "type": 1, "status": false}
-# book = get_book_object_by_id(10)
-# customer = getting_loan_instance_by_id(book, 10, 80085)
-# print(get_last_loaner_id(10))
-# remove_a_customer(80086)
+def get_customer_loans(customer_id):
+    def print_customer_loans(customer_id):
+        with open('loans.json', 'r') as f:
+            loans = json.load(f)
+
+        if customer_id not in loans:
+            print(f"No active loans found for customer {customer_id}")
+        else:
+            customer_loans = loans[customer_id]
+            print(f"Active loans for customer {customer_id}:")
+            for book_id, loan_info in customer_loans.items():
+                print(f"Book {book_id}:")
+                print(f"Title: {loan_info['book_title']}")
+                print(f"Loaned on: {loan_info['loan_date']}")
+                print(f"Expected return date: {loan_info['return_date']}")
+
+def get_all_customers():
+    try:
+        with open("customers.json", "r") as file:
+            customers = json.load(file)
+    except FileNotFoundError:
+        print("customers.json file not found!")
+        return
+        return
+
+    print("----------------------------------------------------------------")
+    for customer in customers:
+        print(f"ID: {customer['id']}")
+        print(f"Name: {customer['name']}")
+        print(f"Email: {customer['email']}")
+        print(f"Birthday: {customer['birthday']}")
+        print(f"Address: {customer['address']}")
+        print("----------------------------------------------------------------")
+
