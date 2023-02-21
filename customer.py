@@ -179,10 +179,10 @@ def check_birthday_with_value(birthday): #for frontend
     print("Max attempts reached. Setting birthday to None.")
     return None
 
+#
+# customer = Customer(id=5, name="Pardonski Damzel",email="shawrma56@gmail.com", birthday="12/13/12", city="Kefar Saba",
+#                     street="kebab", house_num="12")
 
-customer = Customer(id=5, name="Pardonski Damzel",email="shawrma56@gmail.com", birthday="12/13/12", city="Kefar Saba",
-                    street="kebab", house_num="12")
 
 
-
-customer.add_to_customer_file()
+# customer.add_to_customer_file()
