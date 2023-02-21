@@ -33,7 +33,7 @@ if __name__ == '__main__':
     print("all you need to do is enter the number of the option you want to perform and then press Enter")
     print("please be advised - if it is your first visit to the library please enter 6 at the next menu")
     print("\n")
-    # time.sleep(3.5) ###################
+    time.sleep(3.5) ###################
 
     while True:
         print("\n")
