@@ -1,5 +1,5 @@
 # final_library_project
-All Files of Jhon Bryce 7732/3 Library Project - by Omer Eshel
+All Files of Jhon Bryce 7732/3 Library Project - by Omer 
 
 This project spanning 2 weeks
 includes multiple files:
