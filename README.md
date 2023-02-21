@@ -15,11 +15,22 @@ includes multiple files:
   9) address file - contains a simple class and some functions to interact with an effective address field for the customer class
 
 languages used: python
-modules used: datetime, json, pprint
+modules used: datetime, json, pprint, fuzzywuzzy, python-Levenshtein (for optimizing fuzzywuzzy)
 files format: JSON
 
+important note -
+using inside your computer CMD panel, or pycharm Terminal (if set to default computer CMD terminal):
+PIP INTALL FUZZYWUZZY
+PIP INSTALL python-Levenshtein
+or manually installing from pycharm install the package to be able to use the program
+
 and thats it,
-this project was definitely a challenge, taking alot of time, quite a lot of sweat, a little bit of tears and many long nights coding.
-hope everything works and comes out okay
+this project was definitely a challenge, taking alot of time, quite a lot of sweat, a little bit of tears and many long nights coding,
+this project taught me alot and exposed me to new modules, functions, methods, quite abit of bugs but was overall a great learning opportunity. 
+hope everything works and comes out okay.
 
 Omer
+
+
+thanks to this site for directing me to fuzzy wuzzy and python levenshtein
+https://towardsdatascience.com/string-comparison-is-easy-with-fuzzywuzzy-library-611cc1888d97
