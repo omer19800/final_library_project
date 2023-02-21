@@ -136,6 +136,13 @@ def small_loading_animation():
     time.sleep(0.2)
     print("\n")
 
+def small_processing_animation():
+    print('Processing', end="")
+    for i in range(3):
+        time.sleep(.5)
+        print(".", end="")
+    time.sleep(0.2)
+    print("\n")
 # Library.return_a_book(10, 80085)
 
 

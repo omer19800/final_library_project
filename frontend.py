@@ -33,7 +33,7 @@ if __name__ == '__main__':
     print("all you need to do is enter the number of the option you want to perform and then press Enter")
     print("please be advised - if it is your first visit to the library please enter 6 at the next menu")
     print("\n")
-    time.sleep(3.5) ###################
+    # time.sleep(3.5) ###################
 
     while True:
         print("\n")
@@ -53,10 +53,10 @@ if __name__ == '__main__':
             print("\n")
             if menu_selection == "1":
                 print("Alright so let's loan a book!")
-                input_val = input("Do you have the id number of the book you want to loan? or shall i get it for you? y/n: ")
+                input_val = input("Do you have the id number of the book you want to loan? if not i can get it for you y/n: ")
 
                 if re.match(r"[yY]", input_val):
-                    book_id = int(input("Please enter the id number of the book you want to loan: "))
+                    selected_book_id = int(input("Please enter the id number of the book you want to loan: "))
 
                 elif re.match(r"[nN]", input_val):
                     input_val = input("please enter the book name: ")
@@ -68,7 +68,7 @@ if __name__ == '__main__':
                         print("There was an error retrieving the book id from the system, please try again")
                         pass
 
-                input_val = input("Do you have your customer id number? or shall i get it for you? y/n: ")
+                input_val = input("Do you have your customer id number? if not i can get it for you y/n: ")
 
                 if re.match(r"[yY]", input_val):
                     customer_id = int(input("Please enter the customer id number: "))
@@ -80,9 +80,13 @@ if __name__ == '__main__':
                     customer_id = logger.get_customer_id_from_name(customer_name.capitalize())
                     print(f" Got it! your customer id is {customer_id}")
 
+                print("\n")
                 print("Now lets make the loan")
                 library.Library.loan_a_book(selected_book_id, customer_id)
                 loaned = True
+                library.small_processing_animation()  # prettify
+                logger.update_a_customer_loans(selected_book_id, customer_id)
+                print("\n completed loan successfully\n")
             else:
                 pass
 
@@ -123,7 +127,13 @@ if __name__ == '__main__':
                 print("Now lets make the return")
 
                 library.Library.return_a_book(selected_book_id, customer_id)
+                loaned = False
+                library.small_processing_animation()  # prettify
+                logger.remove_book_from_customer(selected_book_id, customer_id)
+                print("\n completed return successfully\n")
 
+            else:
+                pass
         # ------------------------------------------------------------------ # visual separation
 
         elif re.match(r"[3]", menu_selection):
@@ -191,14 +201,14 @@ if __name__ == '__main__':
                         selected_customer.address.set_city(new_city)
                         selected_customer.address.set_street(new_street)
                         selected_customer.address.set_house_num(new_house_num)
-                        logger.update_a_customer(selected_customer)
+                        logger.update_a_customer_instance(selected_customer)
 
                     elif menu_selection == "3":
                         print("\n")
                         selected_customer.set_customer_email(customer.check_customer_email())
-                        logger.update_a_customer(selected_customer)
+                        logger.update_a_customer_instance(selected_customer)
 
-                    elif menu_selection == "5":
+                elif menu_selection == "5":
                         break
                 else:
                     pass

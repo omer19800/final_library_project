@@ -230,7 +230,7 @@ def update_book_status(book_id, new_status):
         raise LogNotFoundError("Book with id {book_id} not found")
 
 #chat
-def update_a_customer(changed_customer_instance):
+def update_a_customer_instance(changed_customer_instance):
     with open('customers.json', 'r') as f:
         customers = json.load(f)
 
@@ -242,7 +242,28 @@ def update_a_customer(changed_customer_instance):
         for c in customers:
             json.dump(c, f)
 
+def update_a_customer_loans(customer_id, book_id):
+    with open('customers.json', 'r') as f:
+        customers = json.load(f)
 
+    for i, c in enumerate(customers):
+        if c['customer_id'] == customer_id:
+            c['curr_loaned'].append(book_id)
+            customers[i] = c
+
+    with open('customers.json', 'w') as f:
+        json.dump(customers, f, indent=4)
+
+def remove_book_from_customer(customer_id, book_id):
+    with open('customers.json', 'r') as f:
+        customers = json.load(f)
+
+    for customer in customers:
+        if customer['customer_id'] == customer_id:
+            customer['curr_loaned'].remove(book_id)
+
+    with open('customers.json', 'w') as f:
+        json.dump(customers, f)
 
 def remove_book(book_id):
     with open("books.json", "r") as file:
