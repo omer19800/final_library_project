@@ -15,8 +15,11 @@ includes multiple files:
   9) address file - contains a simple class and some functions to interact with an effective address field for the customer class
 
 languages used: python
+
 pycharm plugins used: Sourcery - advices to make the code cleared and more effective 
+
 modules used: datetime, json, pprint, fuzzywuzzy, python-Levenshtein (for optimizing fuzzywuzzy)
+
 files format: JSON
 
 important notes:
