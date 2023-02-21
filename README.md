@@ -14,6 +14,10 @@ includes multiple files:
   8) dates file - containing all functions regarding dates and datetime - taught me alot on how to use the module and interact with time in python
   9) address file - contains a simple class and some functions to interact with an effective address field for the customer class
 
+languages used: python
+modules used: datetime, json, pprint
+files format: JSON
+
 and thats it,
 this project was definitely a challenge, taking alot of time, quite a lot of sweat, a little bit of tears and many long nights coding.
 hope everything works and comes out okay
