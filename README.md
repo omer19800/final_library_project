@@ -27,7 +27,7 @@ important notes:
 
    PIP INTALL FUZZYWUZZY,
    
-   PIP INSTALL python-Levenshtein
+   PIP INSTALL Levenshtein - if it doesnt work try PIP INSTALL python-Levenstein
    
    or manually installing from pycharm install the package to be able to use the program
    
