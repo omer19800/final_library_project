@@ -21,8 +21,10 @@ class Customer:
         self.customer_id = random.randint(1, 10000)
         self.loaned_books = []
 
-    def __repr__(self):
-        pass
+    # def __repr__(self):
+    #     print(f"Customer personal id: {self.id}, Customer name: {self.name}, Customer email: {self.email}, Customer birthday: "
+    #             f"{self.birthday}, customer address: {self.address.__repr__()}, customeer loaned books: {self.loaned_books}")
+
     #getters
     def get_customer_personal_id(self):
         return self.id
@@ -53,6 +55,8 @@ class Customer:
         self.customer_id = new_id
     def set_customer_loans(self, the_list:list):
         self.loaned_books = the_list
+
+
 
     def add_loaned_book_to_customer(self, new_book_id):
         self.loaned_books.append(new_book_id)
@@ -170,7 +174,7 @@ def check_birthday(): #for frontend
     return None
 
 def check_birthday_with_value(birthday): #for frontend
-    pattern = r'^([0-3][0-9])/([01][0-9])/([0-9]{2})$'
+    pattern = r'^([0-3][0-9])(-|/)([0-1][0-9])(-|/)([0-9]{2-4})$'
     for i in range(2):
         match = re.match(pattern, birthday)
         if match:
@@ -179,10 +183,36 @@ def check_birthday_with_value(birthday): #for frontend
     print("Max attempts reached. Setting birthday to None.")
     return None
 
-#
+
+def add_loaned_book_to_customer(customer_id, book_id):
+    with open('customers.json', 'r') as f:
+        customers = json.load(f)
+
+    for customer in customers:
+        if customer['customer_id'] == customer_id:
+            customer['curr_loaned'].append(book_id)
+            break
+
+    with open('customers.json', 'w') as f:
+        json.dump(customers, f)
+
+
+def remove_loaned_book_from_customer(customer_id, book_id):
+    with open('customers.json', 'r') as f:
+        customers = json.load(f)
+
+    for customer in customers:
+        if customer['customer_id'] == customer_id:
+            customer['curr_loaned'].remove(book_id)
+            break
+
+    with open('customers.json', 'w') as f:
+        json.dump(customers, f)
+
 # customer = Customer(id=5, name="Pardonski Damzel",email="shawrma56@gmail.com", birthday="12/13/12", city="Kefar Saba",
 #                     street="kebab", house_num="12")
 
 
 
 # customer.add_to_customer_file()
+# remove_loaned_book_from_customer(8140, 1)

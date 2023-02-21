@@ -6,7 +6,8 @@ import datetime
 
 class LoanError(Exception):
     pass
-
+class BookLateError(LoanError):
+    pass
 class BookAlreadyLoanedError(LoanError):
     message = "Book is already loaned"
 
@@ -73,18 +74,19 @@ class Loan:
     ###setters###
 
     def set_loan_date(self, man_date):
-        self.loan_date = dates.format_date_to_dmy(man_date)
-
+        # self.loan_date = dates.format_date_to_dmy(man_date)
+        self.loan_date = man_date
     def set_loan_date_today(self):
         self.loan_date = dates.todays_date()
 
     def update_loan_date(self, new_date):
-        self.loan_date = dates.format_date_to_dmy(new_date)
+        # self.loan_date = dates.format_date_to_dmy(new_date)
+        self.loan_date = new_date
 
 
     def set_return_date(self, return_date):
-        self.return_date = dates.format_date_to_dmy(return_date)
-
+        # self.return_date = dates.format_date_to_dmy(return_date)
+        self.return_date = return_date
     def set_is_late(self, is_late:bool):
         self.is_late = is_late
     def extend_loan_time(self, how_many_days):
@@ -95,12 +97,19 @@ class Loan:
         self.extension = how_many_days
         return self.return_date
 
-    def set_return_date_via_type(self, book: object):
-        days_by_type = book.max_loan_length()
-        loan_date_datetime_format = datetime.datetime.strptime(self.loan_date, "%d/%m/%y")
-        self.return_date = loan_date_datetime_format + datetime.timedelta(days=days_by_type)
-        self.return_date = datetime.datetime.strftime(self.return_date, "%d/%m/%y")
+    # def set_return_date_via_type(self, book: object): #I HAVE A PYCHARM BUG WITH NO ABILITY TO DEBUG STRPTIME
+    #     days_by_type = book.max_loan_length()
+    #     loan_date_datetime_format = datetime.datetime.strptime(self.loan_date, "%d/%m/%y")
+    #     self.return_date = loan_date_datetime_format + datetime.timedelta(days=days_by_type)
+    #     self.return_date = datetime.datetime.strftime(self.return_date, "%d/%m/%y")
 
+    def set_return_date_via_type(self, book):
+        days_by_type = book.max_loan_length()
+        loan_day, loan_month, loan_year = map(int, self.loan_date.split("/"))
+        year, month, day = loan_year + 2000, loan_month, loan_day
+        loan_date = datetime.date(year, month, day)
+        return_date = loan_date + datetime.timedelta(days=days_by_type)
+        self.return_date = return_date.strftime("%d/%m/%y")
 
     def set_return_custom_date(self, date: "format yyyy-mm-dd"):
         self.return_date = datetime.date(dates.format_date_to_dmy(date))
@@ -113,16 +122,18 @@ class Loan:
             return 0
         else:
             return late_days
-    @staticmethod
-    def same_loaner(customer_id, last_loaner_id):
-        if customer_id == last_loaner_id:
-            return True
-        else:
-            return False
 
-def check_if_late(loan_instance):  # check for late
+def same_loaner(customer_id, last_loaner_id):
+    if customer_id == last_loaner_id:
+        return True
+    else:
+        return False
+
+def check_if_late(selected_book, loan_instance):  # check for late
     today_date = datetime.datetime.strptime(dates.todays_date(), '%d/%m/%y')
     return_date = datetime.datetime.strptime(loan_instance.get_return_date(), '%d/%m/%y')
+    # today_date = datetime.datetime.strptime(dates.todays_date(), '%d/%m/%y')
+    # return_date = selected_book.return_date
     duration = return_date - today_date
     if duration < datetime.timedelta(days=0):
         return True

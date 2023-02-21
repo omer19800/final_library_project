@@ -53,7 +53,7 @@ class Book:
             days = 2
         return days
 
-    def is_loaned(self):
+    def get_is_loaned(self):
         return self.loaned
 
     def set_loaned_or_not(self, status:bool):
@@ -93,7 +93,7 @@ class Book:
         with open("books.json", "a+") as file:
             if not self.no_double_books():
                 log_entry = {"book_id" : self.book_id, "name" : self.name, "author" : self.author, "year" : self.year,
-                             "type" : self.book_type, "status" : self.loaned}
+                            "type" : self.book_type, "status" : self.loaned}
                 file.write(json.dumps(',' +log_entry))
             else:
                 raise DoubleBookIdError(f"Book with id {str(self.book_id)} already exists")

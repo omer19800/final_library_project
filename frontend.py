@@ -86,7 +86,8 @@ if __name__ == '__main__':
                 loaned = True
                 library.small_processing_animation()  # prettify
                 logger.update_a_customer_loans(selected_book_id, customer_id)
-                print("\n completed loan successfully\n")
+
+                print("Completed loan successfully")
             else:
                 pass
 
@@ -124,7 +125,9 @@ if __name__ == '__main__':
                     customer_id = logger.get_customer_id_from_name(customer_name.capitalize())
                     print(f" Got it! your customer id is {customer_id}")
 
+                print("\n")
                 print("Now lets make the return")
+                print("\n")
 
                 library.Library.return_a_book(selected_book_id, customer_id)
                 loaned = False

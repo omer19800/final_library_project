@@ -1,3 +1,1 @@
-[{"entry_num": 1, "type": "loan", "book_id": 2, "customer_id": 332, "loan_date": "08/02/23", "return_date": "13/02/23"},{"entry_num": 2, "type": "loan", "book_id": 10, "customer_id": 80085, "loan_date": "09/02/23", "return_date": "19/02/23"}]
-
-
+[{"entry_num": 1, "type": "loan", "book_id": 2, "customer_id": 332, "loan_date": "08/02/23", "return_date": "13/02/23"}, {"entry_num": 2, "type": "loan", "book_id": 10, "customer_id": 80085, "loan_date": "09/02/23", "return_date": "19/02/23"}, {"entry_num": 3, "type": "loan", "book_id": 9, "customer_id": 80085, "loan_date": "21/02/23", "return_date": "03/03/23"}, {"entry_num": 4, "type": "return", "book_id": 9, "customer_id": 80085, "return_date": "22/02/23", "status": "returned on time"}]

@@ -25,23 +25,31 @@ class Log:
         self.log_file = log_file # no
 
 
-def write_log(log_entry):
-    entry_num = get_entry_num()
-    log_entry = {'entry_num': entry_num, **log_entry}
-    with open(log_file, 'a+') as file:
-        file.write(json.dumps(',' + log_entry))
-
-def get_entry_num(self):
+def get_entry_num():
+    counter = 0
     try:
-        with open(self.log_file, 'r') as file:
-            lines = file.readlines()
+        with open(log_file, 'r') as file:
+            lines = file.read()
             if not lines:
                 return 0
-            else:
-                latest_entry = json.loads(lines[-1])
-                return latest_entry['entry_num'] + 1
+            data = json.loads(lines)
+            for entry in data:
+                counter += 1
+            return counter + 1
     except FileNotFoundError:
         return 0
+
+# latest_entry = json.loads(lines[-1])
+                # return latest_entry[-1]['entry_num'] + 1
+
+def write_log(log_entry):
+    with open(log_file, "r") as file:
+        data:list = json.load(file)
+    entry_num = get_entry_num()
+    log_entry = {'entry_num': entry_num, **log_entry}
+    data.append(log_entry)
+    with open(log_file, "w") as file:
+        json.dump(data, file)
 
 
 #make sure each log file exists
@@ -95,6 +103,7 @@ def get_book_object_by_id(book_id):
             for curr_book in books:
                 if curr_book["book_id"] == book_id:
                     book_details.append(curr_book)
+                    break
 
             if len(book_details) == 0:
                 raise LogNotFoundError
@@ -161,7 +170,7 @@ def get_customer_instance_by_id(customer_id):
                 street=street,
                 house_num=house_num)
             selected_customer.set_customer_loans(person["curr_loaned"])
-            selected_customer.set_customer_customer_id(person["customer_id"])
+            selected_customer.set_customer_customer_id(customer_id)
 
             return selected_customer
 
@@ -196,7 +205,6 @@ def get_customer_details_by_id(customer_id):
                 print("Current Loaned Books:", customer["curr_loaned"])
                 print("----------------------------------------------------------------")
 
-#
 
 #updates
 
@@ -224,10 +232,13 @@ def update_book_status(book_id, new_status):
 
         # Rewrite the books.json file with updated data
         with open("books.json", "w") as file:
-            json.dump(books, file, indent=4)
+            json.dump(books, file)
 
     else:
         raise LogNotFoundError("Book with id {book_id} not found")
+
+
+
 
 #chat
 def update_a_customer_instance(changed_customer_instance):
@@ -252,7 +263,7 @@ def update_a_customer_loans(customer_id, book_id):
             customers[i] = c
 
     with open('customers.json', 'w') as f:
-        json.dump(customers, f, indent=4)
+        json.dump(customers, f,)
 
 def remove_book_from_customer(customer_id, book_id):
     with open('customers.json', 'r') as f:
@@ -440,3 +451,5 @@ def get_all_customers():
         print(f"Address: {customer['address']}")
         print("----------------------------------------------------------------")
 
+
+# write_log({"test,test,test" : "test,test,test"})
