@@ -4,7 +4,7 @@ All Files of Jhon Bryce 7732/3 Library Project - by Omer
 This project spanning 2 weeks
 includes multiple files:
   1) front end file - the __main__ file of the projects creating all the menues and everything
-  2) library file - the "last line: the file taking all the seperate functions and classes and binding them together to all the major functions
+  2) library file - the "last line": the file taking all the seperate functions and classes and binding them together to all the major functions
   3) 3 JSON log files - customers, books, log - contain all the respective information - about the books and thier details, the customers and thier information, and a log of all loans and returnes
     *currently this file contains some sample information
   4) logger file - the "work horse" of my project - contains almost all of the functions that interact with the log files - all three of them.
@@ -16,7 +16,7 @@ includes multiple files:
 
 languages used: python
 
-pycharm plugins used: Sourcery - advices to make the code cleared and more effective 
+pycharm plugins used: Sourcery - advices to make the code clearer and more effective 
 
 modules used: datetime, json, pprint, fuzzywuzzy, python-Levenshtein (for optimizing fuzzywuzzy)
 
